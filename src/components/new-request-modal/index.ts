@@ -1,1 +1,1 @@
-export {NewRequestModal} from './new-request-modal'
+export { NewRequestModal } from "./new-request-modal";

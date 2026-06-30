@@ -1,1 +1,1 @@
-export {RequestTableRow} from './request-table-row'
+export { RequestTableRow } from "./request-table-row";

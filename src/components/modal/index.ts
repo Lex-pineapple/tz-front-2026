@@ -1,1 +1,1 @@
-export { default, RequestModal } from './modal'
+export { RequestModal } from "./modal";

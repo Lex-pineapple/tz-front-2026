@@ -1,1 +1,1 @@
-export { default, CreateNewButton } from './create-new-button'
+export { CreateNewButton } from "./create-new-button";

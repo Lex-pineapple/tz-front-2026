@@ -1,15 +1,21 @@
-import { Button } from '@chakra-ui/react'
+import { Button } from "@chakra-ui/react";
 
 type TCreateNewButton = {
   onClick: () => void;
-}
+};
 
-export const CreateNewButton = ({onClick}: TCreateNewButton) => {
+export const CreateNewButton = ({ onClick }: TCreateNewButton) => {
   return (
-    <Button colorPalette="pink" size="md" alignSelf="flex-end" variant="solid" onClick={onClick}>
+    <Button
+      colorPalette="pink"
+      size="md"
+      alignSelf="flex-end"
+      variant="solid"
+      onClick={onClick}
+    >
       Добавить новую заявку
     </Button>
-  )
-}
+  );
+};
 
-export default CreateNewButton
+export default CreateNewButton;

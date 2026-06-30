@@ -1,12 +1,18 @@
-import { Box, Input, InputGroup } from '@chakra-ui/react'
+import { Box, Input, InputGroup } from "@chakra-ui/react";
 
 type SearchBarProps = {
-  value: string
-  onChange: (value: string) => void
-  placeholder?: string
-}
+  value: string;
+  onChange: (value: string) => void;
+  onBlur: (value: string) => void;
+  placeholder?: string;
+};
 
-export const SearchBar = ({ value, onChange, placeholder = 'Поиск по зявкам...' }: SearchBarProps) => {
+export const SearchBar = ({
+  value,
+  onChange,
+  onBlur,
+  placeholder = "Поиск по зявкам...",
+}: SearchBarProps) => {
   return (
     <Box maxW="6xl" mx="auto" px={6} pt={6}>
       <InputGroup>
@@ -15,10 +21,11 @@ export const SearchBar = ({ value, onChange, placeholder = 'Поиск по зя
           onChange={(event) => onChange(event.target.value)}
           placeholder={placeholder}
           size="md"
+          onBlur={(event) => onBlur(event.target.value)}
         />
       </InputGroup>
     </Box>
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;

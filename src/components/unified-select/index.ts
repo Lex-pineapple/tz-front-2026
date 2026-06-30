@@ -1,1 +1,1 @@
-export {UnifiedSelect} from './unified-select'
+export { UnifiedSelect } from "./unified-select";

@@ -1,1 +1,1 @@
-export { default, FilterSelect } from './filter-select'
+export { FilterSelect } from "./filter-select";

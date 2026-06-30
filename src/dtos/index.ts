@@ -6,4 +6,9 @@ export type RequestDto = {
   priority: "low" | "normal" | "high";
   created_at: string;
   updated_at: string;
-}
+};
+
+export type RequestListDto = {
+  pages: string;
+  items: RequestDto[];
+};

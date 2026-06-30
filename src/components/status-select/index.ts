@@ -1,1 +1,1 @@
-export {StatusSelect} from './status-select'
+export { StatusSelect } from "./status-select";

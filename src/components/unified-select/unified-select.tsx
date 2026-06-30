@@ -1,4 +1,4 @@
-import { createListCollection, Portal, Select } from "@chakra-ui/react"
+import { createListCollection, Portal, Select } from "@chakra-ui/react";
 
 const priorityList = createListCollection({
   items: [
@@ -6,7 +6,7 @@ const priorityList = createListCollection({
     { label: "Medium", value: "medium" },
     { label: "High", value: "high" },
   ],
-})
+});
 
 const statusList = createListCollection({
   items: [
@@ -14,20 +14,21 @@ const statusList = createListCollection({
     { label: "In Progress", value: "in_progress" },
     { label: "Done", value: "done" },
   ],
-})
+});
 
 const listsMap = {
   priority: priorityList,
-  status: statusList
-}
+  status: statusList,
+};
 
 type TUnifiedSelect = {
-  type: 'priority' | 'status';
+  type: "priority" | "status";
   placeholder: string;
-}
+};
 
-export const UnifiedSelect = ({type, placeholder}: TUnifiedSelect) => {
-  return <Select.Root collection={listsMap[type]} size="sm" width="320px">
+export const UnifiedSelect = ({ type, placeholder }: TUnifiedSelect) => {
+  return (
+    <Select.Root collection={listsMap[type]} size="sm" width="320px">
       <Select.HiddenSelect />
       <Select.Control>
         <Select.Trigger cursor="pointer">
@@ -50,4 +51,5 @@ export const UnifiedSelect = ({type, placeholder}: TUnifiedSelect) => {
         </Select.Positioner>
       </Portal>
     </Select.Root>
-}
+  );
+};

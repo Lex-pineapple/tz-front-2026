@@ -1,19 +1,28 @@
-import { Badge, CloseButton, DataList, Dialog, Portal } from '@chakra-ui/react'
-import type { RequestDto } from '../../dtos'
-import { priorityColorMap } from '../../consts/general'
-import { StatusSelect } from '../status-select'
+import { Badge, CloseButton, DataList, Dialog, Portal } from "@chakra-ui/react";
+import type { RequestDto } from "../../dtos";
+import { priorityColorMap } from "../../consts/general";
+import { StatusSelect } from "../status-select";
 
 type RequestModalProps = {
-  request: RequestDto | null
-  isOpen: boolean
-  onClose: () => void
-}
+  request: RequestDto | null;
+  isOpen: boolean;
+  onClose: () => void;
+};
 
-export const RequestModal = ({ request, isOpen, onClose }: RequestModalProps) => {
-  if (!request) return null
+export const RequestModal = ({
+  request,
+  isOpen,
+  onClose,
+}: RequestModalProps) => {
+  if (!request) return null;
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()} placement="center" motionPreset="slide-in-bottom">
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(e) => !e.open && onClose()}
+      placement="center"
+      motionPreset="slide-in-bottom"
+    >
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
@@ -24,14 +33,16 @@ export const RequestModal = ({ request, isOpen, onClose }: RequestModalProps) =>
             </Dialog.Header>
             <Dialog.Body>
               <DataList.Root orientation="horizontal">
-                <DataList.Item >
+                <DataList.Item>
                   <DataList.ItemLabel>ID</DataList.ItemLabel>
                   <DataList.ItemValue>{request.id}</DataList.ItemValue>
                 </DataList.Item>
 
                 <DataList.Item>
                   <DataList.ItemLabel>Description</DataList.ItemLabel>
-                  <DataList.ItemValue>{request.description ?? '—'}</DataList.ItemValue>
+                  <DataList.ItemValue>
+                    {request.description ?? "—"}
+                  </DataList.ItemValue>
                 </DataList.Item>
 
                 <DataList.Item>
@@ -44,18 +55,24 @@ export const RequestModal = ({ request, isOpen, onClose }: RequestModalProps) =>
                 <DataList.Item>
                   <DataList.ItemLabel>Priority</DataList.ItemLabel>
                   <DataList.ItemValue>
-                    <Badge colorPalette={priorityColorMap[request.priority]}>{request.priority}</Badge>
+                    <Badge colorPalette={priorityColorMap[request.priority]}>
+                      {request.priority}
+                    </Badge>
                   </DataList.ItemValue>
                 </DataList.Item>
 
                 <DataList.Item>
                   <DataList.ItemLabel>Created</DataList.ItemLabel>
-                  <DataList.ItemValue>{new Date(request.created_at).toLocaleString()}</DataList.ItemValue>
+                  <DataList.ItemValue>
+                    {new Date(request.created_at).toLocaleString()}
+                  </DataList.ItemValue>
                 </DataList.Item>
 
                 <DataList.Item>
                   <DataList.ItemLabel>Updated</DataList.ItemLabel>
-                  <DataList.ItemValue>{new Date(request.updated_at).toLocaleString()}</DataList.ItemValue>
+                  <DataList.ItemValue>
+                    {new Date(request.updated_at).toLocaleString()}
+                  </DataList.ItemValue>
                 </DataList.Item>
               </DataList.Root>
             </Dialog.Body>
@@ -66,7 +83,7 @@ export const RequestModal = ({ request, isOpen, onClose }: RequestModalProps) =>
         </Dialog.Positioner>
       </Portal>
     </Dialog.Root>
-  )
-}
+  );
+};
 
-export default RequestModal
+export default RequestModal;

@@ -1,1 +1,1 @@
-export { default, RequestTable } from './request-table'
+export { RequestTable } from "./request-table";

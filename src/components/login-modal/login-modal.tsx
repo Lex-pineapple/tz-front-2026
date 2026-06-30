@@ -1,13 +1,25 @@
-import { Button, CloseButton, Dialog, Field, Input, Portal } from '@chakra-ui/react'
+import {
+  Button,
+  CloseButton,
+  Dialog,
+  Field,
+  Input,
+  Portal,
+} from "@chakra-ui/react";
 
 type LoginModalProps = {
   isOpen: boolean;
-  onClose: () => void
-}
+  onClose: () => void;
+};
 
 export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   return (
-    <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()} placement="center" motionPreset="slide-in-bottom">
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(e) => !e.open && onClose()}
+      placement="center"
+      motionPreset="slide-in-bottom"
+    >
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
@@ -38,6 +50,5 @@ export const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         </Dialog.Positioner>
       </Portal>
     </Dialog.Root>
-  )
-}
-
+  );
+};
