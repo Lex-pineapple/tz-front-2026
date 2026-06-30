@@ -2,9 +2,12 @@ import { Badge, CloseButton, DataList, Dialog, Portal } from "@chakra-ui/react";
 import type { RequestDto } from "../../dtos";
 import { priorityColorMap } from "../../consts/general";
 import { StatusSelect } from "../status-select";
+import { useState } from "react";
+import { useChangeStatus } from "../../hooks/use-change-status";
+import type { Status } from "../status-select/status-select";
 
 type RequestModalProps = {
-  request: RequestDto | null;
+  request: RequestDto;
   isOpen: boolean;
   onClose: () => void;
 };
@@ -14,6 +17,17 @@ export const RequestModal = ({
   isOpen,
   onClose,
 }: RequestModalProps) => {
+  const [status, setStatus] = useState([request.status]);
+  const { mutate } = useChangeStatus();
+
+  const handleStatusChange = (newStatus: Status[]) => {
+    mutate({
+      id: request?.id,
+      status: newStatus[0],
+    });
+    setStatus(newStatus);
+  };
+
   if (!request) return null;
 
   return (
@@ -48,7 +62,11 @@ export const RequestModal = ({
                 <DataList.Item>
                   <DataList.ItemLabel>Status</DataList.ItemLabel>
                   <DataList.ItemValue>
-                    <StatusSelect defaultValue={request.status} />
+                    <StatusSelect
+                      value={status}
+                      setValue={handleStatusChange}
+                      defaultValue={request.status}
+                    />
                   </DataList.ItemValue>
                 </DataList.Item>
 

@@ -3,25 +3,24 @@ import apiClient from "../utils/api-client";
 import { parseError } from "../utils/parse-error";
 import type { AxiosError } from "axios";
 import { toaster } from "../components/toaster";
+import { useEffect } from "react";
 
-type TCreateRequestPayload = {
-  title: string;
-  description?: string;
-  priority: string;
+type TChangeStatusPayload = {
+  id: number;
   status: string;
 };
 
-export const useCreateRequest = () => {
+export const useChangeStatus = () => {
   const queryClient = useQueryClient();
   const { mutate, isPending, error, isError, isSuccess } = useMutation<
     unknown,
     AxiosError,
-    TCreateRequestPayload
+    TChangeStatusPayload
   >({
-    mutationKey: ["createRequest"],
+    mutationKey: ["changeStatus"],
     mutationFn: async (payload) => {
-      const response = await apiClient.post("/requests", {
-        ...payload,
+      const response = await apiClient.patch(`/requests/${payload.id}`, {
+        status: payload.status,
       });
       return response.data;
     },
@@ -30,12 +29,20 @@ export const useCreateRequest = () => {
     },
   });
 
-  if (isError) {
-    toaster.create({
-      description: parseError(error) ?? "Произошла ошибка при создании заявки",
-      type: "error",
-    });
-  }
+  useEffect(() => {
+    if (isSuccess)
+      toaster.create({
+        description: "Статус успешно изменен",
+        type: "success",
+      });
+
+    if (isError)
+      toaster.create({
+        description:
+          parseError(error) ?? "Произошла ошибка при изменении статуса заявки",
+        type: "error",
+      });
+  }, [isSuccess, isError]);
 
   return {
     mutate,

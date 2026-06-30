@@ -9,12 +9,21 @@ const statusList = createListCollection({
   ],
 });
 
+export type Status = "new" | "in_progress" | "done";
+
 type TUnifiedSelect = {
   defaultValue: string;
   placeholder?: string;
+  value: Status[];
+  setValue: (val: Status[]) => void;
 };
 
-export const StatusSelect = ({ placeholder, defaultValue }: TUnifiedSelect) => {
+export const StatusSelect = ({
+  placeholder,
+  defaultValue,
+  value,
+  setValue,
+}: TUnifiedSelect) => {
   return (
     <Select.Root
       onClick={(e) => e.stopPropagation()}
@@ -22,6 +31,8 @@ export const StatusSelect = ({ placeholder, defaultValue }: TUnifiedSelect) => {
       size="sm"
       width="320px"
       defaultValue={[defaultValue]}
+      value={value}
+      onValueChange={(e) => setValue(e.value as Status[])}
     >
       <Select.HiddenSelect />
       <Select.Control>

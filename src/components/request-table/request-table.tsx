@@ -1,10 +1,4 @@
-import {
-  Box,
-  Table,
-  Pagination,
-  IconButton,
-  ButtonGroup,
-} from "@chakra-ui/react";
+import { Box, Table, Pagination, ButtonGroup } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import type { RequestDto, RequestListDto } from "../../dtos";
 import { RequestModal } from "../modal";
@@ -120,9 +114,7 @@ export const RequestTable = ({
                   type="page"
                   value={pageItem.value}
                 >
-                  <IconButton variant={{ base: "ghost", _selected: "outline" }}>
-                    {pageItem.value}
-                  </IconButton>
+                  {pageItem.value}
                 </Pagination.Item>
               )}
             />
@@ -131,11 +123,13 @@ export const RequestTable = ({
         </Pagination.Root>
       </Box>
 
-      <RequestModal
-        request={selectedRequest}
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-      />
+      {selectedRequest && (
+        <RequestModal
+          request={selectedRequest}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+        />
+      )}
     </Box>
   );
 };
