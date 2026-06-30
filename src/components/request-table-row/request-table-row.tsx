@@ -2,9 +2,10 @@ import { Table, Badge, Button } from "@chakra-ui/react";
 import type { RequestDto } from "../../dtos";
 import { StatusSelect } from "../status-select";
 import { priorityColorMap } from "../../consts/general";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Status } from "../status-select/status-select";
 import { useChangeStatus } from "../../hooks/use-change-status";
+import { getAuth } from "../../utils/get-auth";
 
 type RequestTableRowProps = {
   request: RequestDto;
@@ -18,7 +19,22 @@ export const RequestTableRow = ({
   onRowClick,
 }: RequestTableRowProps) => {
   const [status, setStatus] = useState(() => [request.status]);
+  const [canEdit, setCanEdit] = useState(() =>
+    getAuth(localStorage.getItem("access_token"))
+  );
   const { mutate } = useChangeStatus();
+
+  useEffect(() => {
+    const listenStorageChange = () => {
+      if (localStorage.getItem("access_token") === null) {
+        setCanEdit(false);
+      } else {
+        setCanEdit(getAuth(localStorage.getItem("access_token")));
+      }
+    };
+    window.addEventListener("storage", listenStorageChange);
+    return () => window.removeEventListener("storage", listenStorageChange);
+  }, []);
 
   if (request.status !== status[0]) setStatus([request.status]);
 
@@ -55,6 +71,7 @@ export const RequestTableRow = ({
       </Table.Cell>
       <Table.Cell>
         <Button
+          disabled={!canEdit}
           size="sm"
           colorScheme="red"
           variant="outline"
