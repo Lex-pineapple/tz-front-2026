@@ -22,7 +22,7 @@ export const useGetRequests = ({
     RequestListDto,
     AxiosError
   >({
-    queryKey: ["requests", search, sort, priority, status],
+    queryKey: ["requestsQuery", search, sort, priority, status],
     queryFn: async ({ signal }) => {
       const response = await apiClient.get("/requests", {
         params: {
