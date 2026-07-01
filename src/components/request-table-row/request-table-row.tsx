@@ -1,4 +1,4 @@
-import { Table, Badge, Button } from "@chakra-ui/react";
+import { Table, Badge, Button, Text } from "@chakra-ui/react";
 import type { RequestDto } from "../../dtos";
 import { StatusSelect } from "../status-select";
 import { priorityColorMap } from "../../consts/general";
@@ -52,8 +52,12 @@ export const RequestTableRow = ({
       _hover={{ bg: "gray.50", cursor: "pointer" }}
       onClick={() => onRowClick?.(request)}
     >
-      <Table.Cell fontWeight="semibold">{request.title}</Table.Cell>
-      <Table.Cell color="gray.600">{request.description ?? "—"}</Table.Cell>
+      <Table.Cell maxW={200} fontWeight="semibold">
+        <Text lineClamp={1}>{request.title}</Text>
+      </Table.Cell>
+      <Table.Cell color="gray.600" maxW={200}>
+        <Text lineClamp={2}>{request.description ?? "—"}</Text>
+      </Table.Cell>
       <Table.Cell>
         <StatusSelect
           defaultValue={request.status}

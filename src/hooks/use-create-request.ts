@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "../utils/api-client";
-import { parseError } from "../utils/parse-error";
+import { parseError, type TAPIError } from "../utils/parse-error";
 import type { AxiosError } from "axios";
 import { toaster } from "../components/toaster";
+import { useEffect } from "react";
 
 type TCreateRequestPayload = {
   title: string;
@@ -15,7 +16,7 @@ export const useCreateRequest = () => {
   const queryClient = useQueryClient();
   const { mutate, isPending, error, isError, isSuccess } = useMutation<
     unknown,
-    AxiosError,
+    AxiosError<TAPIError>,
     TCreateRequestPayload
   >({
     mutationKey: ["createRequest"],
@@ -30,12 +31,15 @@ export const useCreateRequest = () => {
     },
   });
 
-  if (isError) {
-    toaster.create({
-      description: parseError(error) ?? "Произошла ошибка при создании заявки",
-      type: "error",
-    });
-  }
+  useEffect(() => {
+    if (isError) {
+      toaster.create({
+        description:
+          parseError(error) ?? "Произошла ошибка при создании заявки",
+        type: "error",
+      });
+    }
+  }, [isError]);
 
   return {
     mutate,

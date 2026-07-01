@@ -5,23 +5,20 @@ import type { AxiosError } from "axios";
 import { toaster } from "../components/toaster";
 import { useEffect } from "react";
 
-type TChangeStatusPayload = {
+type TDeleteRequestPayload = {
   id: number;
-  status: string;
 };
 
-export const useChangeStatus = () => {
+export const useDeleteRequest = () => {
   const queryClient = useQueryClient();
   const { mutate, isPending, error, isError, isSuccess } = useMutation<
     unknown,
     AxiosError<TAPIError>,
-    TChangeStatusPayload
+    TDeleteRequestPayload
   >({
     mutationKey: ["changeStatus"],
     mutationFn: async (payload) => {
-      const response = await apiClient.patch(`/requests/${payload.id}`, {
-        status: payload.status,
-      });
+      const response = await apiClient.delete(`/requests/${payload.id}`);
       return response.data;
     },
     onSuccess: async () => {
@@ -31,21 +28,16 @@ export const useChangeStatus = () => {
 
   useEffect(() => {
     if (isSuccess)
-      queueMicrotask(() => {
-        toaster.create({
-          description: "Статус успешно изменен",
-          type: "success",
-        });
+      toaster.create({
+        description: "Заявка успешно удалена",
+        type: "success",
       });
 
     if (isError)
-      queueMicrotask(() => {
-        toaster.create({
-          description:
-            parseError(error) ??
-            "Произошла ошибка при изменении статуса заявки",
-          type: "error",
-        });
+      toaster.create({
+        description:
+          parseError(error) ?? "Произошла ошибка при удалении заявки",
+        type: "error",
       });
   }, [isSuccess, isError]);
 

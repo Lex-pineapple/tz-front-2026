@@ -1,37 +1,37 @@
-import { Box, Table, Pagination, ButtonGroup } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { Box, Table, Pagination, ButtonGroup, Button } from "@chakra-ui/react";
+import { useState } from "react";
 import type { RequestDto, RequestListDto } from "../../dtos";
 import { RequestModal } from "../modal";
 import { RequestTableRow } from "../request-table-row";
+import { SortIcon } from "../icons/sort-icon";
+
+import "./request-table.css";
 
 type RequestTableProps = {
   requests: RequestListDto;
   currSortQ: string;
   onTableHeadClick: (sortQ: string) => void;
   onDelete?: (id: number) => void;
+  currPage: string;
+  onPageChange: (page: number) => void;
 };
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 export const RequestTable = ({
   requests,
   onDelete,
   onTableHeadClick,
   currSortQ,
+  currPage,
+  onPageChange,
 }: RequestTableProps) => {
-  const [page, setPage] = useState(1);
   const [selectedRequest, setSelectedRequest] = useState<RequestDto | null>(
     null
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const totalPages = parseInt(requests.pages);
-  const safePage = Math.min(page, totalPages);
-
-  const pagedRequests = useMemo(() => {
-    const start = (safePage - 1) * PAGE_SIZE;
-    return requests.items.slice(start, start + PAGE_SIZE);
-  }, [safePage, requests]);
 
   const handleRowClick = (request: RequestDto) => {
     setSelectedRequest(request);
@@ -45,7 +45,7 @@ export const RequestTable = ({
 
   return (
     <Box p={6} maxW="6xl" mx="auto">
-      <Table.Root size="sm" variant="line">
+      <Table.Root size="sm" variant="outline">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeader>Title</Table.ColumnHeader>
@@ -59,7 +59,13 @@ export const RequestTable = ({
                 )
               }
             >
-              Priority
+              Priority{" "}
+              {(currSortQ == "priorityAsc" || currSortQ === "priorityDesc") && (
+                <SortIcon
+                  size="xs"
+                  className={`sort-icon ${currSortQ === "priorityDesc" ? "invert" : ""}`}
+                />
+              )}
             </Table.ColumnHeader>
             <Table.ColumnHeader
               cursor="pointer"
@@ -71,7 +77,14 @@ export const RequestTable = ({
                 )
               }
             >
-              Created
+              Created{" "}
+              {(currSortQ == "createdAtDesc" ||
+                currSortQ === "createdAtAsc") && (
+                <SortIcon
+                  size="xs"
+                  className={`sort-icon ${currSortQ === "createdAtDesc" ? "invert" : ""}`}
+                />
+              )}
             </Table.ColumnHeader>
             <Table.ColumnHeader>Actions</Table.ColumnHeader>
           </Table.Row>
@@ -85,7 +98,7 @@ export const RequestTable = ({
               </Table.Cell>
             </Table.Row>
           ) : (
-            pagedRequests.map((request) => (
+            requests.items.map((request) => (
               <RequestTableRow
                 key={request.id}
                 request={request}
@@ -99,26 +112,31 @@ export const RequestTable = ({
 
       <Box display="flex" justifyContent="center" mt={4}>
         <Pagination.Root
-          count={requests.items.length}
+          count={PAGE_SIZE * totalPages}
           pageSize={PAGE_SIZE}
-          page={safePage}
-          onPageChange={(details) => setPage(details.page)}
+          page={parseInt(currPage)}
+          onPageChange={(details) => onPageChange(details.page)}
           siblingCount={1}
         >
-          <ButtonGroup variant="ghost" size="sm" wrap="wrap">
-            <Pagination.PrevTrigger>Prev</Pagination.PrevTrigger>
+          <ButtonGroup variant="outline" size="sm" wrap="wrap">
+            <Pagination.PrevTrigger asChild>
+              <Button>Prev</Button>
+            </Pagination.PrevTrigger>
             <Pagination.Items
               render={(pageItem) => (
                 <Pagination.Item
                   key={pageItem.value}
                   type="page"
                   value={pageItem.value}
+                  asChild
                 >
-                  {pageItem.value}
+                  <Button>{pageItem.value}</Button>
                 </Pagination.Item>
               )}
             />
-            <Pagination.NextTrigger>Next</Pagination.NextTrigger>
+            <Pagination.NextTrigger asChild>
+              <Button>Next</Button>
+            </Pagination.NextTrigger>
           </ButtonGroup>
         </Pagination.Root>
       </Box>

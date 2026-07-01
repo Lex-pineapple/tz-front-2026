@@ -43,7 +43,7 @@ export const RequestModal = ({
           <Dialog.Content>
             <Dialog.CloseTrigger />
             <Dialog.Header>
-              <Dialog.Title>{request.title}</Dialog.Title>
+              <Dialog.Title lineClamp={5}>{request.title}</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
               <DataList.Root orientation="horizontal">
@@ -54,7 +54,7 @@ export const RequestModal = ({
 
                 <DataList.Item>
                   <DataList.ItemLabel>Description</DataList.ItemLabel>
-                  <DataList.ItemValue>
+                  <DataList.ItemValue wordBreak="break-word">
                     {request.description ?? "—"}
                   </DataList.ItemValue>
                 </DataList.Item>
